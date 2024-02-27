@@ -1,4 +1,4 @@
-using System.Collections;
+ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -13,8 +13,8 @@ public class Movement : MonoBehaviour
 
     public LayerMask GroundLayerMask;
 
-    bool _IsGrounded = false;
-    bool _IsJumping = false;
+    protected bool _IsGrounded = false;
+    protected bool _IsJumping = false;
 
     protected Vector3 _InputDirection;
 
@@ -33,27 +33,18 @@ public class Movement : MonoBehaviour
         HandleInput();
     }
 
-    void FixedUpdate()
+    protected virtual void FixedUpdate()
     {
         CheckGround();
 
         HandleMovement();
     }
 
-    void HandleInput()
+    protected virtual void HandleInput()
     {
-        _InputDirection = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
-
-        if(Input.GetButton("Jump"))
-        {
-            _IsJumping = true;
-        }
-        else
-        {
-            _IsJumping = false;
-        }
+        
     }
-    void DoJump()
+    protected virtual void DoJump()
     {
         _rigidbody2d.velocity = new Vector2(_rigidbody2d.velocity.x, JumpForce);
     }
