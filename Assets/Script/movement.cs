@@ -56,20 +56,6 @@ public class Movement : MonoBehaviour
     {
         
     }
-    //my assignment
-    protected void GetBufferjump()
-    {
-        if (_rigidbody2d.velocity.y < 0 && _IsGrounded)
-        {
-            _IsJumping = false;
-            Debug.Log("working");
-            DoJump();
-            
-        }
-
-      
-    }
-
     protected virtual void HandleInput()
     {
         
@@ -124,8 +110,6 @@ public class Movement : MonoBehaviour
 
           
            
-            if ( _IsJumping )
-            DoJump();
         }
         if (!_IsGrounded && _IsJumping && CoyoteTime.CurrentProgress == Cooldown.Progress.Ready)
             CoyoteTime.StopCooldown();
