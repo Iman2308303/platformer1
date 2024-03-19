@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class EnemyMovement : Movement
 {
-    public Vector2 EnemyDirection = new Vector2 (1, 0);
+    public Vector2 EnemyDirection = new Vector2(1, 0);
     public Transform Target;
     protected override void HandleInput()
     {
@@ -20,6 +20,6 @@ public class EnemyMovement : Movement
         targetDirection = targetDirection.normalized;
 
         _InputDirection = targetDirection;
-       
+
     }
 }

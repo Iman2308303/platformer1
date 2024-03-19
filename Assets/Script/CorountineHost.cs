@@ -11,7 +11,7 @@ public class CorountineHost : MonoBehaviour
             if (m_Instance == null)
             {
                 m_Instance = (CorountineHost)FindObjectOfType(typeof(CorountineHost));
-                
+
                 if (m_Instance == null)
                 {
                     GameObject go = new GameObject();

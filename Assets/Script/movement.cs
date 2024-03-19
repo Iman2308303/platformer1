@@ -1,4 +1,4 @@
- using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using Unity.Profiling;
 using UnityEngine;
@@ -14,13 +14,17 @@ public class Movement : MonoBehaviour
     public float MaxSlopeAngle = 45f;
 
     public Cooldown CoyoteTime;
-    public Cooldown BufferTime;
+    public Cooldown BufferJump;
 
-    
+
 
     public LayerMask GroundLayerMask;
 
+    protected int JumpRemaining = 2;
+
     protected bool _IsGrounded = false;
+    protected bool _IsRunning = false;
+    protected bool _IsFalling = false;
     protected bool _IsJumping = false;
     protected bool _canJump = true;
 
@@ -42,7 +46,7 @@ public class Movement : MonoBehaviour
     void Update()
     {
         HandleInput();
-        
+
     }
 
     protected virtual void FixedUpdate()
@@ -51,27 +55,62 @@ public class Movement : MonoBehaviour
 
         HandleMovement();
     }
+    protected void DoubleJump()
+    {
+
+        if (!_IsGrounded && JumpRemaining > 0)
+        {
+            _canJump = true;
+            JumpRemaining--;
+            if (!_IsGrounded && JumpRemaining > 0)
+            {
+                _canJump = false;
+            }
+        }
+
+    }
 
     protected void TryBufferJump()
     {
-        
+        BufferJump.StartCooldown();
     }
     protected virtual void HandleInput()
     {
-        
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            if (_IsGrounded || JumpRemaining > 0)
+            {
+                DoJump();
+            }
+        }
     }
     protected virtual void DoJump()
     {
+        TryBufferJump();
+        
+
         if (!_canJump)
             return;
 
         if (CoyoteTime.CurrentProgress == Cooldown.Progress.Finished)
             return;
 
-        _canJump = false;
-        _IsJumping = true;
+        if (!_IsJumping)
+        {
+            _IsJumping = true;
+            _canJump = false;
+            _rigidbody2d.velocity = new Vector2(_rigidbody2d.velocity.x, JumpForce);
 
-        _rigidbody2d.velocity = new Vector2(_rigidbody2d.velocity.x, JumpForce);
+            if (!_IsGrounded)
+            {
+                JumpRemaining--;
+            }
+        }
+        else if (!_IsGrounded && JumpRemaining > 0)
+        {
+            JumpRemaining--;
+            _rigidbody2d.velocity = new Vector2(_rigidbody2d.velocity.x, JumpForce);
+        }
 
         CoyoteTime.StopCooldown();
     }
@@ -80,7 +119,7 @@ public class Movement : MonoBehaviour
     {
         Vector3 targetVelocity = Vector3.zero;
 
-        if (_IsGrounded && !_IsJumping )
+        if (_IsGrounded && !_IsJumping)
         {
             targetVelocity = new Vector2(_InputDirection.x * (Acceleration), 0f);
         }
@@ -88,8 +127,10 @@ public class Movement : MonoBehaviour
         {
             targetVelocity = new Vector2(_InputDirection.x * (Acceleration), _rigidbody2d.velocity.y);
         }
-        
+
         _rigidbody2d.velocity = targetVelocity;
+
+
     }
     void CheckGround()
     {
@@ -101,19 +142,29 @@ public class Movement : MonoBehaviour
             _IsJumping = false;
         }
 
-        if ( _IsGrounded && !_IsJumping )
+        if (_IsGrounded && !_IsJumping)
         {
             _canJump = true;
+            JumpRemaining = 2;
+
+
 
             if (CoyoteTime.CurrentProgress != Cooldown.Progress.Ready)
                 CoyoteTime.StopCooldown();
 
-          
-           
+            if (BufferJump.CurrentProgress is Cooldown.Progress.Started or Cooldown.Progress.InProgress)
+            {
+                DoJump();
+            }
+
+            if (_IsJumping)
+                DoJump();
+
+            
         }
         if (!_IsGrounded && _IsJumping && CoyoteTime.CurrentProgress == Cooldown.Progress.Ready)
             CoyoteTime.StopCooldown();
-
+        DoubleJump();
 
     }
 }

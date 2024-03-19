@@ -5,7 +5,7 @@ using UnityEngine;
 
 
 [Serializable]
-public class Cooldown 
+public class Cooldown
 {
     public enum Progress
     {
@@ -13,7 +13,7 @@ public class Cooldown
         Started,
         InProgress,
         Finished,
-        
+
     }
 
     public Progress CurrentProgress = Progress.Ready;
@@ -75,5 +75,5 @@ public class Cooldown
         CurrentProgress = Progress.Finished;
     }
 
-    
+
 }
