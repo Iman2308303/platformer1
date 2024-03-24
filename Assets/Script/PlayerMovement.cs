@@ -10,7 +10,6 @@ public class PlayerMovement : Movement
 
         if (Input.GetButton("Jump"))
         {
-            DoubleJump();
             DoJump();
             _IsJumping = true;
         }
@@ -19,7 +18,4 @@ public class PlayerMovement : Movement
             _IsJumping = false;
         }
     }
-
-
-
 }
