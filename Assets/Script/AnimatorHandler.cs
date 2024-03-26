@@ -29,14 +29,28 @@ public class AnimatorHandler : MonoBehaviour
     {
         if (_movement == null)
             return;
+
+        if (_movement.IsRunning)
+        {
+            if (_movement._inputDirection.x < 0)
+                transform.localScale = new Vector3(-_initialScale.x, _initialScale.y, _initialScale.z);
+            else if (_movement._inputDirection.x > 0)
+                transform.localScale = _initialScale;
+        }
+
+        //if (_movement.flipAnim == false)
+            //transform.localScale = _initialScale;
+        //else
+            //transform.localScale = _flipScale;
+        
     }
     void UpdateAnimator()
     {
         if (_movement == null || _animator == null)
             return;
 
-        //_animator.SetBool("IsRunning", _movement.IsRunning);
-        //_animator.SetBool("IsJumping", _movement.IsJumping);
-        //_animator.SetBool("IsFalling", _movement.IsFalling);
+        _animator.SetBool("IsRunning", _movement.IsRunning);
+        _animator.SetBool("IsJumping", _movement.IsJumping);
+        _animator.SetBool("IsFalling", _movement.IsFalling);
     }
 }

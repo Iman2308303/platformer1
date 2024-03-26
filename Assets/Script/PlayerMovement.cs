@@ -6,10 +6,10 @@ public class PlayerMovement : Movement
 {
     protected override void HandleInput()
     {
-        _InputDirection = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
+        _inputDirection = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
 
-        if (Input.GetButton("Jump"))
-        {
+        if (Input.GetButtonDown("Jump"))
+        {   
             DoJump();
             _IsJumping = true;
         }

@@ -19,7 +19,7 @@ public class EnemyMovement : Movement
         Vector2 targetDirection = Target.position - transform.position;
         targetDirection = targetDirection.normalized;
 
-        _InputDirection = targetDirection;
+        _inputDirection = targetDirection;
 
     }
 }
