@@ -246,7 +246,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 1
+  m_GravityScale: 6
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -270,8 +270,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 882123840bbd1a9488756f56676c1724, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Acceleration: 10
-  JumpForce: 5.8
+  Acceleration: 9
+  JumpForce: 16
   GroundCheck: {fileID: 2429912652128439016}
   GroundCheckRadius: 0.1
   MaxSlopeAngle: 45
@@ -284,4 +284,5 @@ MonoBehaviour:
   GroundLayerMask:
     serializedVersion: 2
     m_Bits: 64
-  _InputDirection: {x: 0, y: 0, z: 0}
+  _inputDirection: {x: 0, y: 0}
+  flipAnim: 0
