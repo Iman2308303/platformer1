@@ -46,5 +46,9 @@ public class GameManager : MonoBehaviour
         CurrentLevel++;
         SceneManager.LoadScene(CurrentLevel);
     }
-   
+    public void PlayerReachedEndPoint()
+    {
+        GoToNextLevel();
+    }
+
 }
