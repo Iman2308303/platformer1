@@ -182,7 +182,7 @@ public class Movement : MonoBehaviour
     void CheckGround()
     {
         _IsGrounded = Physics2D.OverlapCircle(GroundCheck.position, GroundCheckRadius, GroundLayerMask);
-        Debug.Log(_IsGrounded);
+        
 
         if (_rigidbody2d.velocity.y <= 0)
         {
