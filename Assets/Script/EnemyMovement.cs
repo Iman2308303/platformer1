@@ -6,6 +6,7 @@ public class EnemyMovement : Movement
 {
     public Vector2 EnemyDirection = new Vector2(1, 0);
     public Transform Target;
+
     protected override void HandleInput()
     {
         if (Target == null)
@@ -20,6 +21,18 @@ public class EnemyMovement : Movement
         targetDirection = targetDirection.normalized;
 
         _inputDirection = targetDirection;
+    }
 
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            Health playerHealth = collision.gameObject.GetComponent<Health>();
+            if (playerHealth != null && playerHealth.CanDamage)
+            {
+                // Damage the player
+                playerHealth.Damage(1, gameObject);
+            }
+        }
     }
 }

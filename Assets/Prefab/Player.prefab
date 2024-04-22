@@ -162,6 +162,8 @@ GameObject:
   - component: {fileID: 3394324765045492553}
   - component: {fileID: 7039357010362715531}
   - component: {fileID: 6214063527471551255}
+  - component: {fileID: 9141289370920112326}
+  - component: {fileID: 7049212003331539527}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -271,7 +273,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Acceleration: 9
-  JumpForce: 16
+  JumpForce: 15
   GroundCheck: {fileID: 2429912652128439016}
   GroundCheckRadius: 0.1
   MaxSlopeAngle: 45
@@ -285,4 +287,34 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   _inputDirection: {x: 0, y: 0}
-  flipAnim: 0
+  flipAnim: 1
+--- !u!114 &9141289370920112326
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7497522447666013050}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cc08a9f35ed0a124aa9d35dda7fe98db, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  respawnPoint: {fileID: 0}
+  MaxHealth: 1
+  InvulnerabilityDuration: 1
+--- !u!114 &7049212003331539527
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7497522447666013050}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ab89dfe05e138654692c7f172f9b3b61, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  respawnPoint: {fileID: 0}
+  respawnYPosition: -5
+  playerHealth: {fileID: 9141289370920112326}

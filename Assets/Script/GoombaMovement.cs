@@ -9,19 +9,32 @@ public class GoombaMovement : Movement
     {
         if (FlipDirection)
         {
-            Debug.Log("moving left");
+           
             _inputDirection = Vector2.left;
         }
         else
         {
-            Debug.Log("moving right");
+            
             _inputDirection = Vector2.right;
+        }
+    }
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            Health playerHealth = collision.gameObject.GetComponent<Health>();
+            if (playerHealth != null && playerHealth.CanDamage)
+            {
+                // Damage the player
+                playerHealth.Damage(1, gameObject);
+            }
         }
     }
     private void OnTriggerEnter2D(Collider2D col)
     {
         if (!col.CompareTag("Boundary"))
             return;
+
 
         FlipDirection = !FlipDirection;
     }

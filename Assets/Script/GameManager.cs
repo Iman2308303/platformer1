@@ -4,12 +4,14 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using static UnityEditor.Timeline.TimelinePlaybackControls;
 using UnityEngine.UI;
+using TMPro;
 
 public class GameManager : MonoBehaviour
 {
+    
     public int CurrentLevel = 1;
     public int TotalCoins = 0;
-    public Text coinText;
+    public TextMeshProUGUI coinText;
     public ChestController chestController;
 
 
@@ -33,11 +35,15 @@ public class GameManager : MonoBehaviour
         }
     }
     private static GameManager m_Instance = null;
+
+
     public void StartGame()
     {
+        Debug.Log("reset complete");
         CurrentLevel = 1;
         TotalCoins = 0;
         SceneManager.LoadScene(CurrentLevel);
+        ResetUIText();
     }
 
     public void GoToNextLevel()
@@ -65,10 +71,6 @@ public class GameManager : MonoBehaviour
         UpdateCoinText();
 
         
-        if (coinText != null)
-        {
-            coinText.text = "Coins: " + TotalCoins;
-        }
     }
     public void UpdateCoinText()
     {
@@ -81,5 +83,10 @@ public class GameManager : MonoBehaviour
             Debug.LogWarning("Coin text reference is null. Ensure it is assigned in the Inspector.");
         }
     }
-
+    public void ResetUIText()
+    {
+        TotalCoins = 0;
+        UpdateCoinText();
+        Debug.Log("UI Text Reset");
+    }
 }

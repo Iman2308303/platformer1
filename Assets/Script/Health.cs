@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Health : MonoBehaviour
 {
@@ -9,46 +10,31 @@ public class Health : MonoBehaviour
 
     public delegate void ResetEvent();
     public ResetEvent OnHitReset;
+    public Transform respawnPoint;
 
     public float MaxHealth = 10f;
-    public Cooldown Invulnerability;
-
-    public float CurrentHealth
-    {
-        get
-        {
-            return _currentHealth;
-        }
-    }
-    private float _currentHealth = 10f;
-
+    public float InvulnerabilityDuration = 1f; // Duration of invulnerability after being hit
     private bool _canDamage = true;
-    // Start is called before the first frame update
-    void Start()
+    private float _currentHealth;
+
+    private void Start()
     {
         ResetHealthToMax();
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
-        if(Input.GetKeyDown(KeyCode.K))
+        // Only for testing, remove this in actual gameplay
+        if (Input.GetKeyDown(KeyCode.K))
             Damage(1f, this.gameObject);
-
-        ResetHealthToMax();
     }
-    void ResetInvulnerable()
+
+    private void ResetInvulnerability()
     {
-        if (_canDamage)
-            return;
-
-        if (Invulnerability.IsOnCooldown && _canDamage == false)
-            return;
-
         _canDamage = true;
         OnHitReset?.Invoke();
-        
     }
+
     public void Damage(float damage, GameObject source)
     {
         if (!_canDamage)
@@ -59,20 +45,38 @@ public class Health : MonoBehaviour
         if (_currentHealth <= 0)
         {
             _currentHealth = 0f;
-            Die();
+            
+            Respawn();
         }
 
-        Invulnerability.StartCooldown();
+        // Start invulnerability period
         _canDamage = false;
+        Invoke(nameof(ResetInvulnerability), InvulnerabilityDuration);
 
         OnHit?.Invoke(source);
     }
-    public void Die()
+    void Respawn()
     {
-        Destroy(this.gameObject);
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        transform.position = respawnPoint.position;
+        GameManager.Instance.ResetUIText();
+        Debug.Log("Respawn Manager Reset UI Text");
     }
-    void ResetHealthToMax()
+
+    private void Die()
+    {
+        Destroy(gameObject);
+    }
+
+    public void ResetHealthToMax()
     {
         _currentHealth = MaxHealth;
     }
+
+    // Expose canDamage state to other scripts
+    public bool CanDamage => _canDamage;
+
+    // Define CurrentHealth property
+    public float CurrentHealth => _currentHealth;
 }
+
