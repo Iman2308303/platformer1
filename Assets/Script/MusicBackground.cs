@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class BackgroundMusic : MonoBehaviour
 {
-    private static BackgroundMusic instance;
+    public static BackgroundMusic instance;
     private AudioSource audioSource;
 
     void Awake()
     {
-        // Ensure only one instance of BackgroundMusic exists
+        
         if (instance == null)
         {
             instance = this;
@@ -37,6 +37,13 @@ public class BackgroundMusic : MonoBehaviour
         if (audioSource != null && audioSource.isPlaying)
         {
             audioSource.Stop();
+        }
+    }
+    void OnLevelWasLoaded(int level)
+    {
+        if (level == 0) 
+        {
+            StopMusic(); 
         }
     }
 }

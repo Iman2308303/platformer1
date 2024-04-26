@@ -11,6 +11,16 @@ public class GameManager : MonoBehaviour
     public int TotalCoins = 0;
     public TextMeshProUGUI coinText;
     public ChestController chestController;
+    private bool isGamePaused = false;
+    public GameObject pauseMenuUI;
+
+    private BackgroundMusic backgroundMusic;
+
+    void Start()
+    {
+        backgroundMusic = BackgroundMusic.instance;
+    }
+
 
 
     public static GameManager Instance
@@ -52,11 +62,26 @@ public class GameManager : MonoBehaviour
         {
             CurrentLevel = 1;
             SceneManager.LoadScene(0);
+            backgroundMusic.PlayMusic();
             return;
         }
 
         CurrentLevel++;
         SceneManager.LoadScene(CurrentLevel);
+    }
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            if (isGamePaused)
+            {
+                ResumeGame();
+            }
+            else
+            {
+                PauseGame();
+            }
+        }
     }
     public void PlayerReachedEndPoint()
     {
@@ -86,5 +111,24 @@ public class GameManager : MonoBehaviour
         TotalCoins = 0;
         UpdateCoinText();
         Debug.Log("UI Text Reset");
+    }
+    public void QuitGames()
+    {
+        Application.Quit();
+        Debug.Log("Game is exiting");
+        
+    }
+
+    public void PauseGame()
+    {
+        isGamePaused = true;
+        Time.timeScale = 0f; 
+        pauseMenuUI.SetActive(true); 
+    }
+    public void ResumeGame()
+    {
+        isGamePaused = false;
+        Time.timeScale = 1f; 
+        pauseMenuUI.SetActive(false); 
     }
 }

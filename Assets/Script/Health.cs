@@ -73,7 +73,7 @@ public class Health : MonoBehaviour
         _currentHealth = MaxHealth;
     }
 
-    // Expose canDamage state to other scripts
+    
     public bool CanDamage => _canDamage;
 
     // Define CurrentHealth property

@@ -1,11 +1,13 @@
 using UnityEngine;
 using UnityEngine.UI;
+using System.Collections;
 
 public class ChestController : MonoBehaviour
 {
     public int requiredCoins = 10;
     public Text displayText;
     public Animator animator;
+    public GameObject rewardPrefab;
 
 
     private GameManager gameManager;
@@ -54,20 +56,34 @@ public class ChestController : MonoBehaviour
             animator.SetTrigger("Open");
             
             gameManager.TotalCoins -= requiredCoins; 
-            gameManager.UpdateCoinText(); 
+            gameManager.UpdateCoinText();
+
+            StartCoroutine(ShowRewardAfterDelay(1.0f));
         }
         else
         {
             Debug.LogWarning("Animator reference is null. Ensure it is assigned in the Inspector.");
         }
     }
+    IEnumerator ShowRewardAfterDelay(float delay)
+    {
+        yield return new WaitForSeconds(delay);
 
-    
+        if (rewardPrefab != null)
+        {
+            Instantiate(rewardPrefab, transform.position, Quaternion.identity);
+        }
+        else
+        {
+            Debug.LogWarning("Reward prefab reference is null. Ensure it is assigned in the Inspector.");
+        }
+    }
+
     void UpdateDisplayText()
     {
         if (displayText != null)
         {
-            displayText.text = gameManager.TotalCoins + "/" + requiredCoins + "Press 'E'";
+            displayText.text = gameManager.TotalCoins + "/" + requiredCoins + " Coins \nPress 'E'";
         }
         else
         {
